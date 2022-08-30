@@ -1,0 +1,11 @@
+{
+    "namespace": "com.davidosantos.kafka.training.kafkatraining",
+    "type": "record",
+    "name" : "Customers",
+    "fields": [
+        {"name" : "name", "type" : "string"},
+        {"name" : "age", "type" : "int"},
+        {"name" : "birthDate", "type" : "string"},
+        {"name" : "timestamp", "type" : "string"}
+    ]
+}
