@@ -45,6 +45,20 @@ public class KafkaTrainingApplication {
 		this.props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:19092,kafka-2:29092,kafka-3:39092");
 		this.props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		this.props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
+
+		// secure but less performant settings, duplicated and out of order messages does not happen
+		
+		//idempotent settings garantees that no out of order processing happens.
+		//--> when true, the message will be sent to the broker with identifier PID:MessageSequenceNumber.
+		this.props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, Boolean.TRUE);
+		//all broker must acknowledge the message --> must be all when idempotent settings is true.
+		this.props.put(ProducerConfig.ACKS_CONFIG, "all");
+		//a maximum number of 10 retry attempts are allowed.
+		this.props.put(ProducerConfig.RETRIES_CONFIG, "10");
+		//the broker will accept as much as 4 messsages without acknowledgements. --> must be between 1 - 5
+		this.props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "4");
+
+
 		this.props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://schema-registry:8081");
 		//this.props.put(ProducerConfig.LINGER_MS_CONFIG, 5000);
 
